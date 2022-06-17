@@ -11,16 +11,16 @@ import SwiftUI
 final class ViewModel: ObservableObject {
     private let pokemonManager = PokemonManager()
     
-    @Published var pokemonList = [Pokemon]()
     @Published var pokaman: Pokemon =  PokemonManager().getFirstPokemon()
     @Published var pokemonDetails: DetailPokemon?
     @Published var searchText = ""
+    
+    var pokemonList = [Pokemon]()
     
     var filteredPokemon: [Pokemon] {
         return searchText == "" ? pokemonList : pokemonList.filter {
             $0.name.contains(searchText.lowercased())
         }
-       
     }
     
     init() {
@@ -39,13 +39,6 @@ final class ViewModel: ObservableObject {
         return pokemon.id
     }
     
-    func getPokemonIndex(pokemon: Pokemon)-> Int {
-        if let index = self.pokemonList.firstIndex(of: pokemon) {
-            return index + 1
-        }
-        return 0
-    }
-    
     func getDetails(pokemon: Pokemon) {
         self.pokemonDetails = DetailPokemon(id: 0, height: 0, weight: 0)
         
@@ -54,10 +47,9 @@ final class ViewModel: ObservableObject {
                 self.pokemonDetails = data
             }
         }
-       
     }
     
-    func  formatHW(value: Int)-> String {
+    func formatHW(value: Int)-> String {
         let dValue = Double(value)
         let string = String(format: "%.2f", dValue / 10)
         

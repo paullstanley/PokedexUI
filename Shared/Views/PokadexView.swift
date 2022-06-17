@@ -18,15 +18,14 @@ struct PokadexView: View {
     ]
     
     var tap: some Gesture {
-           TapGesture(count: 1)
-               .onEnded { _ in
-                   self.previousButtonIsPressed = !self.previousButtonIsPressed
-                   self.nextButtonIsPressed = !self.nextButtonIsPressed
-               }
-       }
+        TapGesture(count: 1)
+            .onEnded { _ in
+                self.previousButtonIsPressed = !self.previousButtonIsPressed
+                self.nextButtonIsPressed = !self.nextButtonIsPressed
+            }
+    }
     
     var body: some View {
-        
         ZStack {
             VStack {
                 Header()
@@ -41,8 +40,9 @@ struct PokadexView: View {
                     .clipShape(
                         HeaderDivider()
                     )
-                .shadow(color: .black, radius: 5, x: 0, y: 10)
+                    .shadow(color: .black, radius: 5, x: 0, y: 10)
             }
+            
             VStack {
                 InnerTopBorder()
                     .stroke(.red,
@@ -51,7 +51,7 @@ struct PokadexView: View {
                     .clipShape(
                         InnerTopBorder()
                     )
-                .shadow(color: .black, radius: 2, x: -2, y: -2)
+                    .shadow(color: .black, radius: 2, x: -2, y: -2)
             }
             VStack {
                 InnerBottomBorder()
@@ -61,15 +61,20 @@ struct PokadexView: View {
                     .clipShape(
                         InnerBottomBorder()
                     )
-                .shadow(color: .black, radius: 2, x: -2, y: -2)
+                    .shadow(color: .black, radius: 2, x: -2, y: -2)
             }
             
             HStack {
                 ViewerScreen(vm: vm)
+                    .padding(.leading, 30)
                 Spacer()
-                NavigationButtons()
+                VStack {
+                    NavigationButtons()
+                        .padding(.bottom, 250)
+                }
+                Spacer()
             }
-            .padding(.horizontal, 30)
+            
             VStack {
                 HStack {
                     TextField(
@@ -77,8 +82,9 @@ struct PokadexView: View {
                     .onSubmit {
                         let tempPokemon = vm.filteredPokemon.first != nil  ?  vm.filteredPokemon[0] : vm.pokaman
                         vm.pokaman = tempPokemon
-                             }
+                    }
                     .background()
+                    .shadow(color: .black, radius: 3, x: 3, y: 3)
                     .padding(.horizontal, 50)
                     .padding(.top, 320)
                 }
@@ -93,15 +99,11 @@ struct PokadexView: View {
                     RoundedRectangle(cornerRadius: 5.0).frame(width: 50, height: 50)
                     RoundedRectangle(cornerRadius: 5.0).frame(width: 50, height: 50)
                 }
-                
                 .foregroundColor(.blue)
                 .padding(50)
-                
             }
         }
         .background(Color.red)
-        .scaleEffect()
-        .ignoresSafeArea(.keyboard, edges: .bottom)
         .environmentObject(vm)
     }
 }
@@ -179,7 +181,7 @@ struct Header: View {
                 }
             }
         }
-       
+        
     }
 }
 
@@ -188,74 +190,109 @@ struct ViewerScreen: View {
     
     var body: some View {
         ZStack {
-                RoundedRectangle(cornerRadius: 5.0)
-                    .fill(.white)
-                    .frame(width: 200, height: 200)
-                    .overlay(
-                        VStack {
-                            HStack {
-                                Circle()
-                                    .fill(.red)
-                                    .frame(width: 8, height: 8)
-                                    .padding(5)
-                                Circle()
-                                    .fill(.red)
-                                    .frame(width: 8, height: 8)
-                                    .padding(5)
-                            }
+            RoundedRectangle(cornerRadius: 5.0)
+                .fill(.white)
+                .frame(width: 200, height: 200)
+                .overlay(
+                    VStack {
+                        HStack {
+                            Circle()
+                                .fill(.red)
+                                .frame(width: 8, height: 8)
+                                .padding(5)
+                            Circle()
+                                .fill(.red)
+                                .frame(width: 8, height: 8)
+                                .padding(5)
+                        }
+                        Spacer()
+                        HStack {
+                            Circle()
+                                .fill(.red)
+                                .frame(width: 20, height: 20)
+                                
                             Spacer()
-                            HStack {
-                                Circle()
-                                    .fill(.red)
-                                    .frame(width: 10, height: 10)
-                                Spacer()
-                            }
-                            .padding(.bottom, 3)
                         }
-                    )
-                    .shadow(color: .black, radius: 4, x: 3, y: 3)
-                    .padding(.bottom, 250)
-         
-                RoundedRectangle(cornerRadius: 5.0)
-                    .fill(.gray)
-                    .frame(width: 190, height: 170)
-                    .padding(.bottom, 250)
-                    .overlay(
-                        VStack {
-                            PokemonDetailView()
-                        }
-                            .foregroundColor(.white)
-                            .padding(.bottom, 250)
-                    )
+                        .padding(.leading, 10)
+                        .padding(.bottom, 10)
+                    }
+                )
+                .shadow(color: .black, radius: 4, x: 3, y: 3)
+                .padding(.bottom, 250)
+            
+            RoundedRectangle(cornerRadius: 5.0)
+                .fill(.gray)
+                .frame(width: 160, height: 115)
+                .padding(.bottom, 290)
+                .overlay(
+                    VStack {
+                        PokemonDetailView()
+                    }
+                    .foregroundColor(.black)
+                    .padding(.bottom, 230)
+                )
         }
     }
 }
 
 struct NavigationButtons: View {
     @EnvironmentObject var vm: ViewModel
-
+    
     var body: some View {
-        
-        Button(action: {
-            vm.previousPokemon()
-        }) {
-            Image(systemName: "arrowtriangle.backward.fill")
-            .font(.system(size: 55))
-            .foregroundColor(.blue)
-            .shadow(color: .black, radius: 4, x: 3, y: 3)
-            .padding(.bottom, 300)
-        }
-        
-        Button(action: {
-            vm.nextPokemon()
-        }) {
-        Image(systemName: "arrowtriangle.right.fill")
-            .font(.system(size: 55))
-            .foregroundColor(.blue)
-            .shadow(color: .black, radius: 4, x: 3, y: 3)
-            .padding(.bottom, 300)
+        ZStack {
+            VStack {
+                Button {
+                    vm.nextPokemon()
+                } label: {
+                    Image(systemName: "triangle.fill")
+                        .imageScale(.large)
+                        .shadow(color: Color.blue.opacity(0.5), radius: 3, x: 3, y: 3)
+                }
+                .padding(.top, 5)
+                
+                Circle()
+                    .fill(.blue)
+                    .frame(width: 20, height: 20, alignment: .center)
+                
+                Button {
+                    vm.previousPokemon()
+                } label: {
+                    Image(systemName: "triangle.fill")
+                        .imageScale(.large)
+                        .shadow(color: Color.blue.opacity(0.5), radius: 3, x: 3, y: 3)
+                }
+                .padding(.top, 5)
+                .rotationEffect(.degrees(180))
+            }
             
+            
+            HStack {
+                Button {
+                    vm.previousPokemon()
+                } label: {
+                    Image(systemName: "triangle.fill")
+                        .imageScale(.large)
+                        .shadow(color: Color.blue.opacity(0.5), radius: 3, x: 3, y: 3)
+                }
+                .padding(.top, 5)
+                .rotationEffect(.degrees(270))
+                Circle()
+                    .frame(width: 20, height: 20, alignment: .center)
+                
+                Button {
+                    vm.nextPokemon()
+                } label: {
+                    Image(systemName: "triangle.fill")
+                        .imageScale(.large)
+                        .shadow(color: Color.blue.opacity(0.5), radius: 3, x: 3, y: 3)
+                }
+                .padding(.top, 5)
+                .rotationEffect(.degrees(90))
+            }
         }
+        .background(Color.black)
+        .cornerRadius(10)
+        .shadow(color: .black, radius: 3, x: 3, y: 3)
     }
 }
 

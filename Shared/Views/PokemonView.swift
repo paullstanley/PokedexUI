@@ -10,7 +10,7 @@ import SwiftUI
 struct PokemonView: View {
     @EnvironmentObject var vm: ViewModel
     let pokemon: Pokemon
-    let dimensions: Double = 50
+    let dimensions: Double = 100
     
     var body: some View {
         VStack {
@@ -19,18 +19,19 @@ struct PokemonView: View {
                     image
                         .resizable()
                         .scaledToFit()
-                        .frame(width: dimensions, height: dimensions)
+                        .frame(width: 160, height: 115)
+                        .shadow(color: Color.black.opacity(0.5), radius: 3, x: 2, y: 2)
                 }
             } placeholder: {
                 ProgressView()
-                    .frame(width: dimensions, height: dimensions)
+                    .frame(width: 190, height: 115)
             }
-            .background(.thinMaterial)
-            .clipShape(Circle())
+            .background(Image("pkbg"))
+            .clipShape(RoundedRectangle(cornerRadius: 5.0))
+            .shadow(color: .black, radius: 3, x: 2, y: 2)
             
             Text("\(pokemon.name.capitalized)")
-                .font(.system(size: 16, weight: .regular, design: .monospaced))
-                .padding(.bottom, 5)
+                .font(.system(size: 10, weight: .bold, design: .monospaced))
         }
     }
 }
