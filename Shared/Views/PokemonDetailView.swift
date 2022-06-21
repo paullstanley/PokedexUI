@@ -16,7 +16,7 @@ struct PokemonDetailView: View {
             makeView(geo)
         }
         .onChange(of: vm.selectedPokemon) { _ in
-            vm.getDetails(pokemon: vm.selectedPokemon)
+            vm.getDetails()
         }
     }
     
@@ -31,15 +31,16 @@ struct PokemonDetailView: View {
                 .border(
                     LinearGradient(colors: [.gray, .white], startPoint: .topLeading, endPoint: .bottomTrailing), width: 3)
                 .shadow(color: Color.black.opacity(0.5), radius: 3, x: 2, y: 2)
-            
-            Text("**ID**: \(vm.pokemonDetails?.id ?? 1)")
-                .font(.caption2)
-            Text("**Weight**: \(vm.formatHW(value: vm.pokemonDetails?.weight ?? 0)) KG")
-                .font(.caption2)
-            Text("**Height**: \(vm.pokemonDetails?.height ?? 0) M")
-                .font(.caption2)
+            VStack {
+                Text("**ID**: \(vm.pokemonDetails?.id ?? 1)")
+                    .font(.caption2)
+                Text("**Weight**: \(vm.formatHW(value: vm.pokemonDetails?.weight ?? 0)) KG")
+                    .font(.caption2)
+                Text("**Height**: \(vm.pokemonDetails?.height ?? 0) M")
+                    .font(.caption2)
+            }
+            .foregroundColor(.black)
         }
-        .environmentObject(vm)
         .frame(width: geometry.size.width, height: geometry.size.width)
     }
 }

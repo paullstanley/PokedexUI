@@ -71,7 +71,6 @@ struct DpadView: View {
                     .scaledToFit()
                     .foregroundColor(.gray)
                 
-                
                 Button {
                     vm.nextPokemon()
                 } label: {

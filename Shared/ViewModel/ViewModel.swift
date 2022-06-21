@@ -9,15 +9,14 @@ import Foundation
 import SwiftUI
 
 final class ViewModel: ObservableObject {
-    private let pokemonManager = PokemonManager()
+    private let model = PokemonManager()
     
-    @Published var selectedPokemon: Pokemon =  Pokemon.samplePokemon
+    @Published var selectedPokemon: Pokemon = Pokemon.samplePokemon
     @Published var pokemonDetails: DetailPokemon?
     @Published var searchText = ""
     
-    
     var pokemonList: [Pokemon] {
-        pokemonManager.pokemon
+        model.pokemon
     }
     
     var filteredPokemon: [Pokemon] {
@@ -27,21 +26,32 @@ final class ViewModel: ObservableObject {
     }
     
     func previousPokemon() {
-        selectedPokemon = pokemonManager.getPreviousPokemon(selectedPokemon)
+        let reversedList = Array(pokemonList.reversed())
+        let tempPokemon = selectedPokemon
+        
+        for i in 0..<pokemonList.count {
+            if tempPokemon.id > pokemonList[0].id && tempPokemon.id <= pokemonList.last!.id && tempPokemon.id == pokemonList[i].id {
+                selectedPokemon = pokemonList[i - 1]
+            } else if tempPokemon.id <= pokemonList[0].id {
+                selectedPokemon = reversedList[tempPokemon.id - 1]
+            }
+        }
     }
     
     func nextPokemon() {
-        selectedPokemon = pokemonManager.getNextPokemon(selectedPokemon)
-    }
-    
-    func getPokemonID()-> Int {
-        return selectedPokemon.id
-    }
-    
-    func getDetails(pokemon: Pokemon) {
-        self.pokemonDetails = DetailPokemon(id: 0, height: 0, weight: 0)
+        let tempPokemon = selectedPokemon
         
-        pokemonManager.getDetailedPokemon(id: selectedPokemon.id) { data in
+        for i in 0..<pokemonList.count - 1 {
+            if tempPokemon.id >= pokemonList[0].id && tempPokemon.id <= pokemonList.last!.id && tempPokemon.id == pokemonList[i].id {
+                selectedPokemon = pokemonList[i + 1]
+            } else if tempPokemon.id >= pokemonList.last!.id - 1  {
+                selectedPokemon =  pokemonList[0]
+            }
+        }
+    }
+    
+    func getDetails() {
+        model.getDetailedPokemon(id: selectedPokemon.id) { data in
             DispatchQueue.main.async {
                 self.pokemonDetails = data
             }
