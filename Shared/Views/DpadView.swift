@@ -12,12 +12,12 @@ struct DpadView: View {
     @State var frame: CGSize = .zero
     
     var body: some View {
-            GeometryReader { (geometry) in
-                ZStack {
-                    self.makeView(geometry)
-                }
-                .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+        GeometryReader { (geometry) in
+            ZStack {
+                self.makeView(geometry)
             }
+            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+        }
     }
     
     func makeView(_ geometry: GeometryProxy) -> some View {
@@ -70,7 +70,7 @@ struct DpadView: View {
                     .resizable()
                     .scaledToFit()
                     .foregroundColor(.gray)
-                    
+                
                 
                 Button {
                     vm.nextPokemon()
@@ -89,7 +89,7 @@ struct DpadView: View {
         .background(Color.black)
         .cornerRadius(40)
         .shadow(color: .black, radius: 3, x: 3, y: 3)
-        }
+    }
 }
 
 struct Dpad_Previews: PreviewProvider {

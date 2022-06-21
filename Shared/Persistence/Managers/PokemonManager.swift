@@ -23,25 +23,29 @@ class PokemonManager {
     }
     
     func getPreviousPokemon(_ currentPokemon: Pokemon)-> Pokemon {
-        let results: [Pokemon] = data.results
+        let reversedList = Array(pokemon.reversed())
+        var tempPokemon = currentPokemon
         
-        for i in 0..<results.count {
-            if currentPokemon.id > 1 && currentPokemon.id == results[i].id {
-                return results[i - 1]
-            } else if placeHolder.id <= 1 && currentPokemon.id == results[i].id {
-                return results[results.count - 1]
+        for i in 0..<pokemon.count {
+            if currentPokemon.id > pokemon[0].id && currentPokemon.id <= pokemon.last!.id - 1 && currentPokemon.id == pokemon[i].id {
+                tempPokemon = pokemon[i - 1]
+            } else if currentPokemon.id <= pokemon[0].id {
+                tempPokemon = reversedList[currentPokemon.id]
             }
         }
-        return currentPokemon
+        return tempPokemon
     }
     
     func getNextPokemon(_ currentPokemon: Pokemon)-> Pokemon {
-        var tempPokemon = placeHolder
-        let results: [Pokemon] = data.results
-        for i in 0..<results.count {
-            if currentPokemon.id < results.count - 1 && currentPokemon.id == results[i].id {
-                tempPokemon = results[i + 1]
-            } 
+        var tempPokemon = currentPokemon
+        
+        for i in 0..<pokemon.count {
+            if currentPokemon.id >= pokemon[0].id && currentPokemon.id <= pokemon.last!.id - 1 && currentPokemon.id == pokemon[i].id {
+                print(pokemon.last!.id)
+                tempPokemon = pokemon[i + 1]
+            } else if currentPokemon.id >= pokemon.last!.id  {
+                tempPokemon =  pokemon[0]
+            }
         }
         return tempPokemon
     }

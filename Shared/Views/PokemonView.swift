@@ -27,7 +27,7 @@ struct PokemonView: View {
     func makeView(_ geometry: GeometryProxy)-> some View {
         DispatchQueue.main.async { self.frame = geometry.size }
         return VStack {
-            AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(vm.getPokemonID(pokemon: pokemon)).png")) { image in
+            AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(vm.getPokemonID()).png")) { image in
                 if let image = image {
                     image
                         .resizable()
