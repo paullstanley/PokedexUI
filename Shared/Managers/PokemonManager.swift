@@ -8,46 +8,42 @@
 import Foundation
 
 class PokemonManager {
+    let data: PokemonPage = Bundle.main.decode(file: "pokemon.json")
+    let placeHolder: Pokemon = Pokemon.samplePokemon
     
     func getFirstPokemon()-> Pokemon {
-        let data: PokemonPage = Bundle.main.decode(file: "pokemon.json")
         let pokemon: [Pokemon] = data.results
         return pokemon[0]
     }
     
     func getPokemon()-> [Pokemon] {
-        let data: PokemonPage = Bundle.main.decode(file: "pokemon.json")
         let pokemon: [Pokemon] = data.results
         return pokemon
     }
     
-    func getPreviousPokemon(pokeman: Pokemon)-> Pokemon {
-        let pokemon: Pokemon = Pokemon.samplePokemon
-        let data: PokemonPage = Bundle.main.decode(file: "pokemon.json")
+    func getPreviousPokemon(_ currentPokemon: Pokemon)-> Pokemon {
         let results: [Pokemon] = data.results
 
         for i in 0..<results.count {
-            if pokeman.id > 1 && pokeman.id == results[i].id {
+            if currentPokemon.id > 1 && currentPokemon.id == results[i].id {
                return results[i - 1]
-            } else if pokemon.id <= 1 && pokeman.id == results[i].id {
+            } else if placeHolder.id <= 1 && currentPokemon.id == results[i].id {
                 return results[results.count - 1]
             }
         }
-        return pokeman
+        return currentPokemon
     }
     
-    func getNextPokemon(pokemon: Pokemon)-> Pokemon {
-        let pokeman: Pokemon = Pokemon.samplePokemon
-        let data: PokemonPage = Bundle.main.decode(file: "pokemon.json")
+    func getNextPokemon(_ currentPokemon: Pokemon)-> Pokemon {
         let results: [Pokemon] = data.results
         for i in 0..<results.count {
-            if pokemon.id <= results.count - 1 && pokemon.id == results[i].id {
+            if currentPokemon.id <= results.count - 1 && currentPokemon.id == results[i].id {
                 return results[i + 1]
-            } else if pokemon.id >= results.count - 1 && pokemon.id == results[i].id {
-                return results.first ?? pokeman
+            } else if currentPokemon.id >= results.count - 1 && currentPokemon.id == results[i].id {
+                return results.first ?? placeHolder
             }
         }
-            return pokeman
+            return placeHolder
     }
     
     func getDetailedPokemon(id: Int, _ completion: @escaping (DetailPokemon)-> ()) {

@@ -15,24 +15,22 @@ final class ViewModel: ObservableObject {
     @Published var pokemonDetails: DetailPokemon?
     @Published var searchText = ""
     
-    var pokemonList = [Pokemon]()
+    var pokemonList: [Pokemon] {
+        pokemonManager.getPokemon()
+    }
     
     var filteredPokemon: [Pokemon] {
         return searchText == "" ? pokemonList : pokemonList.filter {
             $0.name.contains(searchText.lowercased())
         }
     }
-    
-    init() {
-        self.pokemonList = pokemonManager.getPokemon()
-    }
-    
+
     func previousPokemon() {
-        pokaman = pokemonManager.getPreviousPokemon(pokeman: pokaman)
+        pokaman = pokemonManager.getPreviousPokemon( pokaman)
     }
     
     func nextPokemon() {
-        pokaman = pokemonManager.getNextPokemon(pokemon: pokaman)
+        pokaman = pokemonManager.getNextPokemon(pokaman)
     }
     
     func getPokemonID(pokemon: Pokemon)-> Int {
