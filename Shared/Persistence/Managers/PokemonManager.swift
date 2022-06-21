@@ -10,7 +10,7 @@ import Foundation
 class PokemonManager {
     private(set)var pokemon: [Pokemon]
     
-    let data: PokemonPage = Bundle.main.decode(file: "pokemon.json")
+    let data: PokemonPage = Bundle.main.decode(file: "PokemonStore.json")
     let placeHolder: Pokemon = Pokemon.samplePokemon
     
     init() {
@@ -24,10 +24,10 @@ class PokemonManager {
     
     func getPreviousPokemon(_ currentPokemon: Pokemon)-> Pokemon {
         let results: [Pokemon] = data.results
-
+        
         for i in 0..<results.count {
             if currentPokemon.id > 1 && currentPokemon.id == results[i].id {
-               return results[i - 1]
+                return results[i - 1]
             } else if placeHolder.id <= 1 && currentPokemon.id == results[i].id {
                 return results[results.count - 1]
             }
@@ -36,15 +36,14 @@ class PokemonManager {
     }
     
     func getNextPokemon(_ currentPokemon: Pokemon)-> Pokemon {
+        var tempPokemon = placeHolder
         let results: [Pokemon] = data.results
         for i in 0..<results.count {
-            if currentPokemon.id <= results.count - 1 && currentPokemon.id == results[i].id {
-                return results[i + 1]
-            } else if currentPokemon.id >= results.count - 1 && currentPokemon.id == results[i].id {
-                return results.first ?? placeHolder
-            }
+            if currentPokemon.id < results.count - 1 && currentPokemon.id == results[i].id {
+                tempPokemon = results[i + 1]
+            } 
         }
-            return placeHolder
+        return tempPokemon
     }
     
     func getDetailedPokemon(id: Int, _ completion: @escaping (DetailPokemon)-> ()) {
