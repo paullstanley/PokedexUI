@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Dpad: View {
+struct DpadView: View {
     @EnvironmentObject var vm: ViewModel
     @State var frame: CGSize = .zero
     
@@ -94,6 +94,6 @@ struct Dpad: View {
 
 struct Dpad_Previews: PreviewProvider {
     static var previews: some View {
-        Dpad()
+        DpadView()
     }
 }

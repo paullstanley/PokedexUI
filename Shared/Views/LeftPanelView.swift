@@ -31,7 +31,7 @@ struct LeftPanelView: View {
                         .foregroundColor(.green)
                         .border(LinearGradient(colors: [.gray, .white], startPoint: .topLeading, endPoint: .bottomTrailing), width: 5)
                        Divider()
-                    Dpad()
+                    DpadView()
                         .scaledToFit()
                 }
                 .environmentObject(vm)
