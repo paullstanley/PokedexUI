@@ -20,8 +20,8 @@ struct LeftPanelView: View {
                     
                     TextField("Search", text: $vm.searchText)
                         .onSubmit {
-                            let tempPokemon = vm.filteredPokemon.first != nil  ?  vm.filteredPokemon[0] : vm.pokaman
-                            vm.pokaman = tempPokemon
+                            let tempPokemon = vm.filteredPokemon.first != nil  ?  vm.filteredPokemon[0] : vm.selectedPokemon
+                            vm.selectedPokemon = tempPokemon
                         }
                         .padding()
                         .font(.system(size: 26, weight: .bold, design: .monospaced))

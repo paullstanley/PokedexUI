@@ -8,17 +8,18 @@
 import Foundation
 
 class PokemonManager {
+    private(set)var pokemon: [Pokemon]
+    
     let data: PokemonPage = Bundle.main.decode(file: "pokemon.json")
     let placeHolder: Pokemon = Pokemon.samplePokemon
+    
+    init() {
+        pokemon = data.results
+    }
     
     func getFirstPokemon()-> Pokemon {
         let pokemon: [Pokemon] = data.results
         return pokemon[0]
-    }
-    
-    func getPokemon()-> [Pokemon] {
-        let pokemon: [Pokemon] = data.results
-        return pokemon
     }
     
     func getPreviousPokemon(_ currentPokemon: Pokemon)-> Pokemon {

@@ -11,12 +11,12 @@ import SwiftUI
 final class ViewModel: ObservableObject {
     private let pokemonManager = PokemonManager()
     
-    @Published var pokaman: Pokemon =  PokemonManager().getFirstPokemon()
+    @Published var selectedPokemon: Pokemon =  PokemonManager().getFirstPokemon()
     @Published var pokemonDetails: DetailPokemon?
     @Published var searchText = ""
     
     var pokemonList: [Pokemon] {
-        pokemonManager.getPokemon()
+        pokemonManager.pokemon
     }
     
     var filteredPokemon: [Pokemon] {
@@ -26,11 +26,11 @@ final class ViewModel: ObservableObject {
     }
 
     func previousPokemon() {
-        pokaman = pokemonManager.getPreviousPokemon( pokaman)
+        selectedPokemon = pokemonManager.getPreviousPokemon( selectedPokemon)
     }
     
     func nextPokemon() {
-        pokaman = pokemonManager.getNextPokemon(pokaman)
+        selectedPokemon = pokemonManager.getNextPokemon(selectedPokemon)
     }
     
     func getPokemonID(pokemon: Pokemon)-> Int {
@@ -40,7 +40,7 @@ final class ViewModel: ObservableObject {
     func getDetails(pokemon: Pokemon) {
         self.pokemonDetails = DetailPokemon(id: 0, height: 0, weight: 0)
         
-        pokemonManager.getDetailedPokemon(id: pokaman.id) { data in
+        pokemonManager.getDetailedPokemon(id: selectedPokemon.id) { data in
             DispatchQueue.main.async {
                 self.pokemonDetails = data
             }

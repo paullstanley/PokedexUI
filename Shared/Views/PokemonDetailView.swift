@@ -15,8 +15,8 @@ struct PokemonDetailView: View {
         GeometryReader { geo in
             makeView(geo)
         }
-        .onChange(of: vm.pokaman) { _ in
-            vm.getDetails(pokemon: vm.pokaman)
+        .onChange(of: vm.selectedPokemon) { _ in
+            vm.getDetails(pokemon: vm.selectedPokemon)
         }
     }
     
@@ -24,7 +24,7 @@ struct PokemonDetailView: View {
         DispatchQueue.main.async { self.frame = geometry.size }
         
         return  VStack {
-                PokemonView(pokemon: vm.pokaman)
+                PokemonView(pokemon: vm.selectedPokemon)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .frame(width: geometry.size.width - 30, height: geometry.size.width - (geometry.size.width * 0.33) - 20, alignment: .center)
                 .border(.black, width: 2)
